@@ -3,36 +3,7 @@
  * Core functionality for inventory management
  */
 
-// Sample default inventory data
-const defaultInventory = [
-    {
-        id: '1',
-        name: 'Laptop',
-        category: 'electronics',
-        description: 'High performance laptop with 16GB RAM',
-        quantity: 5,
-        price: 1200,
-        status: 'in-stock'
-    },
-    {
-        id: '2',
-        name: 'T-Shirt',
-        category: 'clothing',
-        description: 'Cotton t-shirt, available in multiple colors',
-        quantity: 50,
-        price: 25,
-        status: 'in-stock'
-    },
-    {
-        id: '3',
-        name: 'Coffee Beans',
-        category: 'food',
-        description: 'Premium coffee beans, 1kg package',
-        quantity: 2,
-        price: 15,
-        status: 'low-stock'
-    }
-];
+
 
 // Inventory data - will be loaded from localStorage or use defaults
 let inventoryItems = [];
