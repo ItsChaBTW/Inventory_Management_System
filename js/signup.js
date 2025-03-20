@@ -4,7 +4,6 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Get form element
     const signupForm = document.getElementById('signupForm');
     if (signupForm) {
         signupForm.addEventListener('submit', handleSignup);
@@ -13,12 +12,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /**
  * Handle signup form submission
- * @param {Event} event - The form submission event
+ * @param {Event} event     
  */
 function handleSignup(event) {
     event.preventDefault();
     
-    // Get form data
     const firstName = document.getElementById('firstName').value.trim();
     const lastName = document.getElementById('lastName').value.trim();
     const email = document.getElementById('email').value.trim();
@@ -26,34 +24,28 @@ function handleSignup(event) {
     const confirmPassword = document.getElementById('confirmPassword').value;
     const errorElement = document.getElementById('signupError');
     
-    // Validate inputs
     if (!firstName || !lastName || !email || !password || !confirmPassword) {
         showError(errorElement, 'Please fill in all fields');
         return;
     }
     
-    // Validate email format
     if (!isValidEmail(email)) {
         showError(errorElement, 'Please enter a valid email address');
         return;
     }
     
-    // Check if passwords match
     if (password !== confirmPassword) {
         showError(errorElement, 'Passwords do not match');
         return;
     }
     
-    // Get users from local storage
     const users = JSON.parse(localStorage.getItem('users')) || [];
     
-    // Check if email is already in use
     if (users.some(user => user.email === email)) {
         showError(errorElement, 'Email is already in use');
         return;
     }
     
-    // Create new user object
     const newUser = {
         id: generateUserId(),
         firstName,
@@ -63,18 +55,14 @@ function handleSignup(event) {
         createdAt: new Date().toISOString()
     };
     
-    // Add user to users array
     users.push(newUser);
     
-    // Save users array back to local storage
     localStorage.setItem('users', JSON.stringify(users));
     
-    // Create session (log user in)
     const currentUser = { ...newUser };
-    delete currentUser.password; // Don't store password in session
+    delete currentUser.password;
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
     
-    // Redirect to dashboard
     window.location.href = 'dashboard.html';
 }
 
@@ -88,7 +76,6 @@ function showError(element, message) {
         element.textContent = message;
         element.classList.remove('hidden');
         
-        // Hide error after 3 seconds
         setTimeout(() => {
             element.classList.add('hidden');
         }, 3000);
@@ -96,17 +83,15 @@ function showError(element, message) {
 }
 
 /**
- * Generate a unique user ID
- * @returns {string} A unique ID for the user
+ * @returns {string} 
  */
 function generateUserId() {
     return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
 }
 
 /**
- * Validate email format
- * @param {string} email - The email to validate
- * @returns {boolean} Whether the email is valid
+ * @param {string} email
+ * @returns {boolean} 
  */
 function isValidEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

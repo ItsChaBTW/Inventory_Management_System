@@ -1,11 +1,4 @@
-/**
- * Inventory Management System
- * Core functionality for inventory management
- */
-
-
-
-// Inventory data - will be loaded from localStorage or use defaults
+/* Main inventory management module */
 let inventoryItems = [];
 
 // DOM elements
@@ -25,10 +18,8 @@ let lowStockItemsEl;
 
 let currentItemId = null;
 
-// Initialize the dashboard
+/* Initialize dashboard and inventory pages */
 function initDashboard() {
-    console.log("Initializing dashboard...");
-    
     // Load inventory data from localStorage
     loadInventoryData();
     
@@ -50,7 +41,6 @@ function initDashboard() {
     const isInventoryPage = window.location.pathname.includes('inventory.html');
     
     if (isDashboardPage) {
-        console.log("On dashboard page, initializing dashboard components");
         // We're on the dashboard - render dashboard components
         renderLowStockItems();
         renderRecentItems();
@@ -59,7 +49,6 @@ function initDashboard() {
     } 
     
     if (isInventoryPage) {
-        console.log("On inventory page, initializing inventory components");
         // Get inventory page elements
         inventoryTableBody = document.getElementById('inventoryTableBody');
         
@@ -151,13 +140,13 @@ function initDashboard() {
     }
 }
 
-// Get current user ID
+/* Get current user ID */
 function getCurrentUserId() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     return currentUser ? currentUser.id : null;
 }
 
-// Load inventory data from localStorage for current user
+/* Load inventory data from localStorage for current user */
 function loadInventoryData() {
     const userId = getCurrentUserId();
     if (!userId) {
@@ -171,7 +160,7 @@ function loadInventoryData() {
     console.log(`Loaded ${inventoryItems.length} items for user ${userId}`);
 }
 
-// Save inventory data to localStorage for current user
+/* Save inventory data to localStorage for current user */
 function saveInventoryData() {
     const userId = getCurrentUserId();
     if (!userId) {
@@ -183,7 +172,7 @@ function saveInventoryData() {
     console.log(`Saved ${inventoryItems.length} items for user ${userId}`);
 }
 
-// Render the inventory table
+/* Render the inventory table */
 function renderInventoryTable() {
     if (!inventoryTableBody) return;
     
@@ -258,10 +247,8 @@ function renderInventoryTable() {
     }
 }
 
-// Update dashboard stats
+/* Update dashboard stats */
 function updateStats() {
-    console.log("Updating stats...");
-    
     if (!totalItemsEl || !totalValueEl || !lowStockItemsEl) {
         console.log("Stats elements not found");
         return;
@@ -287,9 +274,8 @@ function updateStats() {
     });
 }
 
-// Render low stock items on dashboard
+/* Render low stock items on dashboard */
 function renderLowStockItems() {
-    console.log("Rendering low stock items...");
     const lowStockTable = document.getElementById('lowStockTable');
     if (!lowStockTable) {
         console.log("Low stock table not found");
@@ -344,9 +330,8 @@ function renderLowStockItems() {
     console.log(`${lowStockItems.length} low stock items rendered`);
 }
 
-// Render recently added items on dashboard
+/* Render recently added items on dashboard */
 function renderRecentItems() {
-    console.log("Rendering recent items...");
     const recentItemsTable = document.getElementById('recentItemsTable');
     if (!recentItemsTable) {
         console.log("Recent items table not found");
@@ -406,10 +391,8 @@ function renderRecentItems() {
     console.log(`${recentItems.length} recent items rendered`);
 }
 
-// Update category chart on dashboard
+/* Update category chart on dashboard */
 function updateCategoryChart() {
-    console.log("Updating category chart...");
-    
     // Get categories count
     const categories = {
         'electronics': 0,
@@ -437,10 +420,8 @@ function updateCategoryChart() {
     console.log("Category counts:", categories);
 }
 
-// Update status chart on dashboard
+/* Update status chart on dashboard */
 function updateStatusChart() {
-    console.log("Updating status chart...");
-    
     // Count items by status
     const statusCounts = {
         'in-stock': 0,
@@ -486,7 +467,7 @@ function updateStatusChart() {
     console.log("Status percentages:", percentages);
 }
 
-// Filter inventory items based on search and filters
+/* Filter inventory items based on search and filters */
 function filterInventoryItems() {
     if (!inventoryTableBody) return;
     
@@ -583,7 +564,7 @@ function filterInventoryItems() {
     window.history.replaceState({}, '', newUrl.toString());
 }
 
-// Render specific items to the table
+/* Render specific items to the table */
 function renderItems(items) {
     if (!inventoryTableBody) return;
     
@@ -653,7 +634,7 @@ function renderItems(items) {
     });
 }
 
-// Open the item modal for adding or editing
+/* Open the item modal for adding or editing */
 function openItemModal(itemId = null) {
     itemForm.reset();
     document.getElementById('itemId').value = '';
@@ -680,13 +661,13 @@ function openItemModal(itemId = null) {
     itemModal.classList.add('flex');
 }
 
-// Close the item modal
+/* Close the item modal */
 function closeItemModal() {
     itemModal.classList.add('hidden');
     itemModal.classList.remove('flex');
 }
 
-// Handle item form submission
+/* Handle item form submission */
 function handleItemFormSubmit(event) {
     event.preventDefault();
     
@@ -760,7 +741,7 @@ function handleItemFormSubmit(event) {
     }
 }
 
-// Open delete confirmation modal
+/* Open delete confirmation modal */
 function openDeleteModal(itemId) {
     currentItemId = itemId;
     
@@ -768,14 +749,14 @@ function openDeleteModal(itemId) {
     deleteModal.classList.add('flex');
 }
 
-// Close delete confirmation modal
+/* Close delete confirmation modal */
 function closeDeleteModal() {
     deleteModal.classList.add('hidden');
     deleteModal.classList.remove('flex');
     currentItemId = null;
 }
 
-// Handle item deletion
+/* Handle item deletion */
 function handleDeleteItem() {
     if (currentItemId) {
         const index = inventoryItems.findIndex(item => item.id === currentItemId);

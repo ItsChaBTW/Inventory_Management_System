@@ -109,7 +109,7 @@
     }
 }
 
-/* Inventory Logo Animation */
+/* Element Animations */
 .logo-animate {
     transition: transform 0.3s ease;
 }
@@ -118,7 +118,6 @@
     transform: scale(1.05);
 }
 
-/* Card Hover Animations */
 .card-hover {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -128,7 +127,6 @@
     box-shadow: 0 10px 25px rgba(59, 76, 184, 0.15);
 }
 
-/* Button Animations */
 .btn-animate {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -142,7 +140,6 @@
     transform: translateY(0);
 }
 
-/* Table Row Animations */
 .table-row-animate {
     transition: background-color 0.2s ease;
 }
@@ -151,7 +148,6 @@
     background-color: rgba(59, 76, 184, 0.05);
 }
 
-/* Sidebar Link Animations */
 .sidebar-link-animate {
     transition: transform 0.2s ease, background-color 0.2s ease;
 }
@@ -160,7 +156,6 @@
     transform: translateX(5px);
 }
 
-/* Input Field Focus Animation */
 .input-animate {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -170,7 +165,7 @@
     box-shadow: 0 0 0 3px rgba(59, 76, 184, 0.2);
 }
 
-/* Notification Animation */
+/* Transition and Effect Animations */
 @keyframes slideInRight {
     0% {
         transform: translateX(100%);
@@ -186,7 +181,6 @@
     animation: slideInRight 0.3s forwards;
 }
 
-/* Page Transition */
 .page-transition {
     animation: fadeIn 0.5s ease-out;
 }
@@ -200,7 +194,6 @@
     }
 }
 
-/* Icon Spin Animation */
 .icon-spin {
     transition: transform 0.3s ease;
 }
@@ -209,7 +202,6 @@
     transform: rotate(360deg);
 }
 
-/* Pulse Animation for Notifications */
 .pulse {
     animation: pulse 1.5s infinite;
 }

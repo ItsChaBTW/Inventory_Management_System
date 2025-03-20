@@ -4,7 +4,6 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Get form element
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', handleLogin);
@@ -18,31 +17,24 @@ document.addEventListener('DOMContentLoaded', function() {
 function handleLogin(event) {
     event.preventDefault();
     
-    // Get form data
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
     const errorElement = document.getElementById('loginError');
     
-    // Validate inputs
     if (!email || !password) {
         showError(errorElement, 'Please fill in all fields');
         return;
     }
     
-    // Get users from local storage
     const users = JSON.parse(localStorage.getItem('users')) || [];
     
-    // Find user with matching email
     const user = users.find(u => u.email === email);
     
-    // Check if user exists and password matches
     if (user && user.password === password) {
-        // Store current user in local storage (in real app, don't store password)
         const currentUser = { ...user };
         delete currentUser.password; // Don't store password in session
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         
-        // Redirect to dashboard
         window.location.href = 'dashboard.html';
     } else {
         showError(errorElement, 'Invalid email or password');
@@ -59,7 +51,6 @@ function showError(element, message) {
         element.textContent = message;
         element.classList.remove('hidden');
         
-        // Hide error after 3 seconds
         setTimeout(() => {
             element.classList.add('hidden');
         }, 3000);

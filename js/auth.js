@@ -3,7 +3,7 @@
  * Handles users and login
  */
 
-// Auth system for user login and signup
+/* Auth system for user login and signup */
 document.addEventListener('DOMContentLoaded', function() {
     const protectedPages = ['dashboard.html'];
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
@@ -49,13 +49,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Get user data from storage
+/* Get user data from storage */
 function getCurrentUser() {
     const userJson = localStorage.getItem('currentUser');
     return userJson ? JSON.parse(userJson) : null;
 }
 
-// Logout user
+/* Logout user */
 function logout() {
     localStorage.removeItem('currentUser');
     window.location.href = 'login.html';
@@ -66,12 +66,12 @@ if (!localStorage.getItem('users')) {
     localStorage.setItem('users', JSON.stringify([]));
 }
 
-// Check if user is logged in
+/* Check if user is logged in */
 function isLoggedIn() {
     return localStorage.getItem('currentUser') !== null;
 }
 
-// Protect pages that need login
+/* Protect pages that need login */
 function requireAuth() {
     const securePages = [
         'dashboard.html',
@@ -90,7 +90,7 @@ function requireAuth() {
     return true;
 }
 
-// Handle login
+/* Handle login */
 function handleLogin(event) {
     event.preventDefault();
     
@@ -117,7 +117,7 @@ function handleLogin(event) {
     }
 }
 
-// Handle signup
+/* Handle signup */
 function handleSignup(event) {
     event.preventDefault();
     
@@ -167,7 +167,7 @@ function handleSignup(event) {
     window.location.href = 'dashboard.html';
 }
 
-// Update user name display
+/* Update user name display */
 function updateUserInfo() {
     const userNameElements = document.querySelectorAll('#userName');
     
@@ -182,7 +182,7 @@ function updateUserInfo() {
     }
 }
 
-// Start auth system
+/* Start auth system */
 document.addEventListener('DOMContentLoaded', function() {
     if (!requireAuth()) {
         return;
