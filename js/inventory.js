@@ -92,9 +92,39 @@ function initDashboard() {
         // Get inventory page elements
         inventoryTableBody = document.getElementById('inventoryTableBody');
         
+        // Check URL parameters for filters
+        const urlParams = new URLSearchParams(window.location.search);
+        const filterParam = urlParams.get('filter');
+        const sortParam = urlParams.get('sort');
+        
+        // Apply URL parameters to filters if they exist
+        if (filterParam) {
+            const statusFilter = document.getElementById('statusFilter');
+            if (statusFilter && filterParam === 'low-stock') {
+                statusFilter.value = 'low-stock';
+            } else if (statusFilter && filterParam === 'out-of-stock') {
+                statusFilter.value = 'out-of-stock';
+            }
+        }
+        
+        if (sortParam) {
+            const sortBy = document.getElementById('sortBy');
+            if (sortBy && sortParam === 'recent') {
+                // Add "recent" option if it doesn't exist
+                if (!Array.from(sortBy.options).some(option => option.value === 'recent')) {
+                    const option = document.createElement('option');
+                    option.value = 'recent';
+                    option.textContent = 'Most Recent';
+                    sortBy.appendChild(option);
+                }
+                sortBy.value = 'recent';
+            }
+        }
+        
         // Render inventory table if we're on the inventory page
         if (inventoryTableBody) {
-            renderInventoryTable();
+            // Apply filters from URL parameters
+            filterInventoryItems();
         }
         
         // Add event listeners for search and filters on inventory page
@@ -216,10 +246,10 @@ function renderInventoryTable() {
                 <div class="text-sm text-gray-900">${item.quantity}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">$${item.price.toFixed(2)}</div>
+                <div class="text-sm text-gray-900">₱${item.price.toFixed(2)}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">$${totalValue.toFixed(2)}</div>
+                <div class="text-sm text-gray-900">₱${totalValue.toFixed(2)}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">
@@ -261,7 +291,7 @@ function updateStats() {
     const totalValue = inventoryItems.reduce((total, item) => {
         return total + (item.quantity * item.price);
     }, 0);
-    totalValueEl.textContent = `$${totalValue.toFixed(2)}`;
+    totalValueEl.textContent = `₱${totalValue.toFixed(2)}`;
     
     // Count low stock items
     const lowStockCount = inventoryItems.filter(item => item.status === 'low-stock' || item.status === 'out-of-stock').length;
@@ -376,7 +406,7 @@ function renderRecentItems() {
                 <div class="text-sm text-gray-500">${formattedCategory}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">$${totalValue.toFixed(2)}</div>
+                <div class="text-sm text-gray-900">₱${totalValue.toFixed(2)}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-500">${formattedDate}</div>
@@ -473,17 +503,36 @@ function updateStatusChart() {
 function filterInventoryItems() {
     if (!inventoryTableBody) return;
     
-    const searchTerm = document.getElementById('searchInventory').value.toLowerCase();
-    const categoryFilter = document.getElementById('categoryFilter').value;
-    const statusFilter = document.getElementById('statusFilter') ? document.getElementById('statusFilter').value : '';
-    const sortBy = document.getElementById('sortBy').value;
+    // Get filter values
+    const searchInputEl = document.getElementById('searchInventory');
+    const categoryFilterEl = document.getElementById('categoryFilter');
+    const statusFilterEl = document.getElementById('statusFilter');
+    const sortByEl = document.getElementById('sortBy');
+    
+    if (!searchInputEl || !categoryFilterEl || !sortByEl) {
+        console.error("Filter elements not found");
+        return;
+    }
+    
+    const searchTerm = searchInputEl.value.toLowerCase();
+    const categoryFilter = categoryFilterEl.value;
+    const statusFilter = statusFilterEl ? statusFilterEl.value : '';
+    const sortBy = sortByEl.value;
+    
+    console.log("Filtering inventory with:", { 
+        searchTerm, 
+        categoryFilter, 
+        statusFilter, 
+        sortBy 
+    });
     
     // Filter items
     let filteredItems = inventoryItems.filter(item => {
         // Search term filter
         const matchesSearch = searchTerm === '' || 
             item.name.toLowerCase().includes(searchTerm) || 
-            item.description.toLowerCase().includes(searchTerm);
+            item.description.toLowerCase().includes(searchTerm) ||
+            item.category.toLowerCase().includes(searchTerm);
         
         // Category filter
         const matchesCategory = categoryFilter === '' || item.category === categoryFilter;
@@ -493,6 +542,8 @@ function filterInventoryItems() {
         
         return matchesSearch && matchesCategory && matchesStatus;
     });
+    
+    console.log(`Found ${filteredItems.length} items matching filters`);
     
     // Sort items
     filteredItems.sort((a, b) => {
@@ -520,6 +571,26 @@ function filterInventoryItems() {
     if (itemCountElement) {
         itemCountElement.textContent = filteredItems.length;
     }
+    
+    // Update URL parameters to reflect current filter state (without reloading the page)
+    let newUrl = new URL(window.location.href);
+    let params = new URLSearchParams(newUrl.search);
+    
+    // Only add parameters if they have values
+    if (statusFilter) {
+        params.set('filter', statusFilter);
+    } else {
+        params.delete('filter');
+    }
+    
+    if (sortBy === 'recent') {
+        params.set('sort', 'recent');
+    } else {
+        params.delete('sort');
+    }
+    
+    newUrl.search = params.toString();
+    window.history.replaceState({}, '', newUrl.toString());
 }
 
 // Render specific items to the table
@@ -568,10 +639,10 @@ function renderItems(items) {
                 <div class="text-sm text-gray-900">${item.quantity}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">$${item.price.toFixed(2)}</div>
+                <div class="text-sm text-gray-900">₱${item.price.toFixed(2)}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">$${totalValue.toFixed(2)}</div>
+                <div class="text-sm text-gray-900">₱${totalValue.toFixed(2)}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">
