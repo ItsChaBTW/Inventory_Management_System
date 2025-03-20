@@ -721,6 +721,11 @@ function handleItemFormSubmit(event) {
                 price,
                 status
             };
+            
+            // Show notification if function exists
+            if (window.showNotification) {
+                window.showNotification('Item successfully updated', 'success');
+            }
         }
     } else {
         // Add new item
@@ -735,6 +740,11 @@ function handleItemFormSubmit(event) {
         };
         
         inventoryItems.push(newItem);
+        
+        // Show notification if function exists
+        if (window.showNotification) {
+            window.showNotification('New item successfully added', 'success');
+        }
     }
     
     // Save changes to localStorage
@@ -779,10 +789,24 @@ function handleDeleteItem() {
     if (currentItemId) {
         const index = inventoryItems.findIndex(item => item.id === currentItemId);
         if (index !== -1) {
+            // Find the row in the table to animate it
+            const itemRow = document.querySelector(`tr button[onclick="openDeleteModal('${currentItemId}')"]`).closest('tr');
+            
+            // Animate the row removal if animation function exists
+            if (window.animateDeleteItem && itemRow) {
+                window.animateDeleteItem(itemRow);
+            }
+            
+            // Remove the item from the data array
             inventoryItems.splice(index, 1);
             
             // Save changes to localStorage
             saveInventoryData();
+            
+            // Show success notification if function exists
+            if (window.showNotification) {
+                window.showNotification('Item successfully deleted', 'success');
+            }
         }
         
         closeDeleteModal();
@@ -798,8 +822,8 @@ function handleDeleteItem() {
             updateStatusChart();
         }
         
-        // Update inventory table if we're on the inventory page
-        if (window.location.pathname.includes('inventory.html')) {
+        // Update inventory table if we're on the inventory page and no animation
+        if (window.location.pathname.includes('inventory.html') && (!window.animateDeleteItem)) {
             renderInventoryTable();
         }
     }

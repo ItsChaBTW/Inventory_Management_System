@@ -1,0 +1,230 @@
+/* Animations CSS for Inventory Management System */
+
+/* Loading Animation */
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease-out;
+}
+
+.loader-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.running-man {
+    width: 100px;
+    height: 100px;
+    position: relative;
+}
+
+.running-man::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 10px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    animation: shadow-pulse 0.6s infinite alternate;
+}
+
+.running-man .figure {
+    width: 80px;
+    height: 80px;
+    background-color: #3b4cb8;
+    border-radius: 50%;
+    position: relative;
+    animation: bounce 0.6s infinite alternate;
+}
+
+.running-man .figure::before,
+.running-man .figure::after {
+    content: "";
+    position: absolute;
+    background-color: #3b4cb8;
+}
+
+.running-man .figure::before {
+    width: 25px;
+    height: 15px;
+    bottom: -5px;
+    left: -15px;
+    border-radius: 10px;
+    animation: leg1 0.6s infinite alternate;
+}
+
+.running-man .figure::after {
+    width: 25px;
+    height: 15px;
+    bottom: -5px;
+    right: -15px;
+    border-radius: 10px;
+    animation: leg2 0.6s infinite alternate-reverse;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes shadow-pulse {
+    0% {
+        transform: scaleX(0.8);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scaleX(1);
+        opacity: 0.3;
+    }
+}
+
+@keyframes leg1 {
+    0% {
+        transform: rotate(-10deg) translateX(0);
+    }
+    100% {
+        transform: rotate(30deg) translateX(5px);
+    }
+}
+
+@keyframes leg2 {
+    0% {
+        transform: rotate(10deg) translateX(0);
+    }
+    100% {
+        transform: rotate(-30deg) translateX(-5px);
+    }
+}
+
+/* Inventory Logo Animation */
+.logo-animate {
+    transition: transform 0.3s ease;
+}
+
+.logo-animate:hover {
+    transform: scale(1.05);
+}
+
+/* Card Hover Animations */
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(59, 76, 184, 0.15);
+}
+
+/* Button Animations */
+.btn-animate {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-animate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-animate:active {
+    transform: translateY(0);
+}
+
+/* Table Row Animations */
+.table-row-animate {
+    transition: background-color 0.2s ease;
+}
+
+.table-row-animate:hover {
+    background-color: rgba(59, 76, 184, 0.05);
+}
+
+/* Sidebar Link Animations */
+.sidebar-link-animate {
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.sidebar-link-animate:hover {
+    transform: translateX(5px);
+}
+
+/* Input Field Focus Animation */
+.input-animate {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-animate:focus {
+    border-color: #3b4cb8;
+    box-shadow: 0 0 0 3px rgba(59, 76, 184, 0.2);
+}
+
+/* Notification Animation */
+@keyframes slideInRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.notification-animate {
+    animation: slideInRight 0.3s forwards;
+}
+
+/* Page Transition */
+.page-transition {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Icon Spin Animation */
+.icon-spin {
+    transition: transform 0.3s ease;
+}
+
+.icon-spin:hover {
+    transform: rotate(360deg);
+}
+
+/* Pulse Animation for Notifications */
+.pulse {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+} 
