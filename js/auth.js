@@ -3,11 +3,37 @@
  * Handles user registration, login, and session management
  */
 
-// Check if user is logged in, redirect if not
+// Check authentication state on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // Only apply auth check if we're on a page that requires auth (dashboard)
-    if (window.location.pathname.includes('dashboard')) {
-        checkAuth();
+    // Pages that require authentication
+    const protectedPages = ['dashboard.html'];
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    
+    // Check if the current page is protected
+    const isProtectedPage = protectedPages.some(page => currentPage.includes(page));
+    const currentUser = getCurrentUser();
+
+    // For protected pages: redirect to login if not authenticated
+    if (isProtectedPage && !currentUser) {
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    // For login/signup pages: redirect to dashboard if already authenticated
+    if ((currentPage.includes('login.html') || currentPage.includes('signup.html') || currentPage === 'index.html') && currentUser) {
+        // Do not automatically redirect from index page
+        if (currentPage === 'index.html') {
+            // Just update UI, don't redirect
+            const signInLink = document.querySelector('a[href="login.html"]');
+            if (signInLink) {
+                signInLink.href = 'dashboard.html';
+                signInLink.textContent = 'Dashboard';
+            }
+        } else {
+            // Only redirect from login/signup pages
+            window.location.href = 'dashboard.html';
+            return;
+        }
     }
     
     // Set up logout functionality if button exists
@@ -18,23 +44,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Display user name if element exists
     const userNameElement = document.getElementById('userName');
-    if (userNameElement) {
-        const currentUser = getCurrentUser();
-        if (currentUser) {
-            userNameElement.textContent = currentUser.firstName || 'User';
-        }
+    if (userNameElement && currentUser) {
+        userNameElement.textContent = currentUser.firstName || 'User';
+    }
+
+    // Check for user display area
+    const userDisplay = document.getElementById('userDisplay');
+    if (userDisplay && currentUser) {
+        userDisplay.classList.remove('hidden');
     }
 });
-
-/**
- * Check if user is authenticated, redirect to login if not
- */
-function checkAuth() {
-    const currentUser = getCurrentUser();
-    if (!currentUser) {
-        window.location.href = 'login.html';
-    }
-}
 
 /**
  * Get the current user from local storage

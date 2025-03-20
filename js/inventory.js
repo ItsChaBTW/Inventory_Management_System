@@ -1,192 +1,241 @@
 /**
- * Inventory Management module
- * Handles CRUD operations for inventory items
+ * Inventory Management System
+ * Core functionality for inventory management
  */
 
-// Store for inventory items
+// Sample default inventory data
+const defaultInventory = [
+    {
+        id: '1',
+        name: 'Laptop',
+        category: 'electronics',
+        description: 'High performance laptop with 16GB RAM',
+        quantity: 5,
+        price: 1200,
+        status: 'in-stock'
+    },
+    {
+        id: '2',
+        name: 'T-Shirt',
+        category: 'clothing',
+        description: 'Cotton t-shirt, available in multiple colors',
+        quantity: 50,
+        price: 25,
+        status: 'in-stock'
+    },
+    {
+        id: '3',
+        name: 'Coffee Beans',
+        category: 'food',
+        description: 'Premium coffee beans, 1kg package',
+        quantity: 2,
+        price: 15,
+        status: 'low-stock'
+    }
+];
+
+// Inventory data - will be loaded from localStorage or use defaults
 let inventoryItems = [];
 
-// DOM Elements
-let tableBody;
-let emptyInventoryMessage;
+// DOM elements
+let inventoryTableBody;
+let addItemBtn;
 let itemModal;
+let closeModal;
 let itemForm;
 let deleteModal;
-let itemIdToDelete;
+let cancelDelete;
+let confirmDelete;
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-    // Check authentication
-    const currentUser = getCurrentUser();
-    if (!currentUser) {
-        window.location.href = 'login.html';
-        return;
-    }
-    
-    // Initialize inventory store from localStorage
-    loadInventoryItems();
-    
+// Stats elements
+let totalItemsEl;
+let totalValueEl;
+let lowStockItemsEl;
+
+let currentItemId = null;
+
+// Initialize the dashboard
+function initDashboard() {
     // Get DOM elements
-    tableBody = document.getElementById('inventoryTableBody');
-    emptyInventoryMessage = document.getElementById('emptyInventory');
+    inventoryTableBody = document.getElementById('inventoryTableBody');
+    addItemBtn = document.getElementById('addItemBtn');
     itemModal = document.getElementById('itemModal');
+    closeModal = document.getElementById('closeModal');
     itemForm = document.getElementById('itemForm');
     deleteModal = document.getElementById('deleteModal');
+    cancelDelete = document.getElementById('cancelDelete');
+    confirmDelete = document.getElementById('confirmDelete');
     
-    // Set up event listeners
-    document.getElementById('addItemBtn').addEventListener('click', () => openItemModal());
-    document.getElementById('closeModal').addEventListener('click', closeItemModal);
-    itemForm.addEventListener('submit', handleItemFormSubmit);
-    document.getElementById('cancelDelete').addEventListener('click', closeDeleteModal);
-    document.getElementById('confirmDelete').addEventListener('click', confirmDeleteItem);
+    // Stats elements
+    totalItemsEl = document.getElementById('totalItems');
+    totalValueEl = document.getElementById('totalValue');
+    lowStockItemsEl = document.getElementById('lowStockItems');
     
-    // Render inventory table
+    // Load inventory data from localStorage
+    loadInventoryData();
+    
+    // Render the inventory table
     renderInventoryTable();
-});
-
-/**
- * Load inventory items from localStorage
- */
-function loadInventoryItems() {
-    // Get current user to use their ID as part of the storage key
-    const currentUser = getCurrentUser();
-    if (!currentUser) return;
+    updateStats();
     
-    // Each user has their own inventory
-    const storageKey = `inventory_${currentUser.id}`;
-    const storedItems = localStorage.getItem(storageKey);
-    
-    inventoryItems = storedItems ? JSON.parse(storedItems) : [];
+    // Event listeners
+    addItemBtn.addEventListener('click', () => openItemModal());
+    closeModal.addEventListener('click', closeItemModal);
+    itemForm.addEventListener('submit', handleItemFormSubmit);
+    cancelDelete.addEventListener('click', closeDeleteModal);
+    confirmDelete.addEventListener('click', handleDeleteItem);
 }
 
-/**
- * Save inventory items to localStorage
- */
-function saveInventoryItems() {
-    const currentUser = getCurrentUser();
-    if (!currentUser) return;
+// Load inventory data from localStorage
+function loadInventoryData() {
+    const savedInventory = localStorage.getItem('inventoryItems');
     
-    const storageKey = `inventory_${currentUser.id}`;
-    localStorage.setItem(storageKey, JSON.stringify(inventoryItems));
-}
-
-/**
- * Render the inventory table with all items
- */
-function renderInventoryTable() {
-    if (!tableBody) return;
-    
-    // Clear existing table rows
-    tableBody.innerHTML = '';
-    
-    // Show/hide empty inventory message
-    if (inventoryItems.length === 0) {
-        if (emptyInventoryMessage) emptyInventoryMessage.style.display = 'block';
-        return;
+    if (savedInventory) {
+        // Use saved inventory data if available
+        inventoryItems = JSON.parse(savedInventory);
     } else {
-        if (emptyInventoryMessage) emptyInventoryMessage.style.display = 'none';
+        // Use default data if no saved data exists
+        inventoryItems = [...defaultInventory];
+        // Save default data to localStorage
+        saveInventoryData();
+    }
+}
+
+// Save inventory data to localStorage
+function saveInventoryData() {
+    localStorage.setItem('inventoryItems', JSON.stringify(inventoryItems));
+}
+
+// Render the inventory table
+function renderInventoryTable() {
+    if (inventoryItems.length === 0) {
+        inventoryTableBody.innerHTML = `
+            <tr>
+                <td colspan="8" class="px-6 py-4 text-center text-gray-500">
+                    No inventory items found. Add some items to get started.
+                </td>
+            </tr>
+        `;
+        return;
     }
     
-    // Add each item to the table
+    inventoryTableBody.innerHTML = '';
+    
     inventoryItems.forEach(item => {
+        const totalValue = item.quantity * item.price;
+        const statusClass = item.status === 'in-stock' ? 'bg-green-100 text-green-800' : 
+                           item.status === 'low-stock' ? 'bg-yellow-100 text-yellow-800' : 
+                           'bg-red-100 text-red-800';
+                           
+        const statusText = item.status === 'in-stock' ? 'In Stock' : 
+                          item.status === 'low-stock' ? 'Low Stock' : 
+                          'Out of Stock';
+                          
+        // Format category for display (capitalize first letter)
+        const formattedCategory = item.category.charAt(0).toUpperCase() + item.category.slice(1);
+        
         const row = document.createElement('tr');
-        
-        // Calculate total value
-        const totalValue = (item.quantity * item.price).toFixed(2);
-        
+        row.className = 'hover:bg-gray-50';
         row.innerHTML = `
             <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm font-medium text-gray-900">${item.name}</div>
             </td>
-            <td class="px-6 py-4">
-                <div class="text-sm text-gray-500 line-clamp-2">${item.description || 'No description'}</div>
+            <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-500">${formattedCategory}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">${item.description}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-900">${item.quantity}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">$${parseFloat(item.price).toFixed(2)}</div>
+                <div class="text-sm text-gray-900">$${item.price.toFixed(2)}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">$${totalValue}</div>
+                <div class="text-sm text-gray-900">$${totalValue.toFixed(2)}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">
+                    ${statusText}
+                </span>
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <button data-id="${item.id}" class="edit-btn text-blue-600 hover:text-blue-900 mr-4">
-                    <i class="fas fa-edit"></i> Edit
+                <button class="text-brand-blue hover:text-brand-lightblue mr-3" onclick="openItemModal('${item.id}')">
+                    <i class="fas fa-edit"></i>
                 </button>
-                <button data-id="${item.id}" class="delete-btn text-red-600 hover:text-red-900">
-                    <i class="fas fa-trash-alt"></i> Delete
+                <button class="text-red-600 hover:text-red-800" onclick="openDeleteModal('${item.id}')">
+                    <i class="fas fa-trash-alt"></i>
                 </button>
             </td>
         `;
         
-        // Add event listeners to edit and delete buttons
-        const editBtn = row.querySelector('.edit-btn');
-        const deleteBtn = row.querySelector('.delete-btn');
-        
-        editBtn.addEventListener('click', () => openItemModal(item.id));
-        deleteBtn.addEventListener('click', () => openDeleteModal(item.id));
-        
-        tableBody.appendChild(row);
+        inventoryTableBody.appendChild(row);
     });
+    
+    document.getElementById('itemCount').textContent = inventoryItems.length;
 }
 
-/**
- * Open the item modal for adding a new item or editing an existing one
- * @param {string} itemId - The ID of the item to edit, omit for adding new item
- */
+// Update dashboard stats
+function updateStats() {
+    // Calculate total items
+    totalItemsEl.textContent = inventoryItems.length;
+    
+    // Calculate total value
+    const totalValue = inventoryItems.reduce((total, item) => {
+        return total + (item.quantity * item.price);
+    }, 0);
+    totalValueEl.textContent = `$${totalValue.toFixed(2)}`;
+    
+    // Count low stock items
+    const lowStockCount = inventoryItems.filter(item => item.status === 'low-stock' || item.status === 'out-of-stock').length;
+    lowStockItemsEl.textContent = lowStockCount;
+}
+
+// Open the item modal for adding or editing
 function openItemModal(itemId = null) {
-    // Reset form
     itemForm.reset();
     document.getElementById('itemId').value = '';
     
     if (itemId) {
-        // Find the item to edit
-        const itemToEdit = inventoryItems.find(item => item.id === itemId);
-        if (itemToEdit) {
-            // Populate form with item data
+        // Edit existing item
+        const item = inventoryItems.find(item => item.id === itemId);
+        if (item) {
             document.getElementById('modalTitle').textContent = 'Edit Item';
-            document.getElementById('itemId').value = itemToEdit.id;
-            document.getElementById('itemName').value = itemToEdit.name;
-            document.getElementById('itemDescription').value = itemToEdit.description || '';
-            document.getElementById('itemQuantity').value = itemToEdit.quantity;
-            document.getElementById('itemPrice').value = itemToEdit.price;
+            document.getElementById('itemId').value = item.id;
+            document.getElementById('itemName').value = item.name;
+            document.getElementById('itemCategory').value = item.category;
+            document.getElementById('itemDescription').value = item.description;
+            document.getElementById('itemQuantity').value = item.quantity;
+            document.getElementById('itemPrice').value = item.price;
+            document.getElementById('itemStatus').value = item.status;
         }
     } else {
-        // New item
+        // Add new item
         document.getElementById('modalTitle').textContent = 'Add New Item';
     }
     
-    // Show modal
     itemModal.classList.remove('hidden');
+    itemModal.classList.add('flex');
 }
 
-/**
- * Close the item modal
- */
+// Close the item modal
 function closeItemModal() {
     itemModal.classList.add('hidden');
+    itemModal.classList.remove('flex');
 }
 
-/**
- * Handle item form submission for adding or editing items
- * @param {Event} event - The form submission event
- */
+// Handle item form submission
 function handleItemFormSubmit(event) {
     event.preventDefault();
     
-    // Get form data
     const itemId = document.getElementById('itemId').value;
-    const name = document.getElementById('itemName').value.trim();
-    const description = document.getElementById('itemDescription').value.trim();
+    const name = document.getElementById('itemName').value;
+    const category = document.getElementById('itemCategory').value;
+    const description = document.getElementById('itemDescription').value;
     const quantity = parseInt(document.getElementById('itemQuantity').value);
     const price = parseFloat(document.getElementById('itemPrice').value);
-    
-    // Validate required fields
-    if (!name || isNaN(quantity) || isNaN(price)) {
-        alert('Please fill in all required fields with valid values.');
-        return;
-    }
+    const status = document.getElementById('itemStatus').value;
     
     if (itemId) {
         // Update existing item
@@ -195,82 +244,69 @@ function handleItemFormSubmit(event) {
             inventoryItems[index] = {
                 ...inventoryItems[index],
                 name,
+                category,
                 description,
                 quantity,
                 price,
-                updatedAt: new Date().toISOString()
+                status
             };
         }
     } else {
         // Add new item
         const newItem = {
-            id: generateItemId(),
+            id: Date.now().toString(),
             name,
+            category,
             description,
             quantity,
             price,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
+            status
         };
         
         inventoryItems.push(newItem);
     }
     
-    // Save to localStorage
-    saveInventoryItems();
+    // Save changes to localStorage
+    saveInventoryData();
     
-    // Close modal and refresh table
     closeItemModal();
     renderInventoryTable();
+    updateStats();
 }
 
-/**
- * Open delete confirmation modal
- * @param {string} itemId - The ID of the item to delete
- */
+// Open delete confirmation modal
 function openDeleteModal(itemId) {
-    itemIdToDelete = itemId;
+    currentItemId = itemId;
+    
     deleteModal.classList.remove('hidden');
+    deleteModal.classList.add('flex');
 }
 
-/**
- * Close delete confirmation modal
- */
+// Close delete confirmation modal
 function closeDeleteModal() {
     deleteModal.classList.add('hidden');
-    itemIdToDelete = null;
+    deleteModal.classList.remove('flex');
+    currentItemId = null;
 }
 
-/**
- * Confirm and process item deletion
- */
-function confirmDeleteItem() {
-    if (!itemIdToDelete) return;
-    
-    // Remove item from array
-    inventoryItems = inventoryItems.filter(item => item.id !== itemIdToDelete);
-    
-    // Save to localStorage
-    saveInventoryItems();
-    
-    // Close modal and refresh table
-    closeDeleteModal();
-    renderInventoryTable();
+// Handle item deletion
+function handleDeleteItem() {
+    if (currentItemId) {
+        const index = inventoryItems.findIndex(item => item.id === currentItemId);
+        if (index !== -1) {
+            inventoryItems.splice(index, 1);
+            
+            // Save changes to localStorage
+            saveInventoryData();
+        }
+        
+        closeDeleteModal();
+        renderInventoryTable();
+        updateStats();
+    }
 }
 
-/**
- * Generate a unique item ID
- * @returns {string} A unique ID for the item
- */
-function generateItemId() {
-    return 'item_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
-}
-
-/**
- * Get current user from localStorage
- * @returns {Object|null} The current user object or null if not logged in
- */
-function getCurrentUser() {
-    const userJson = localStorage.getItem('currentUser');
-    return userJson ? JSON.parse(userJson) : null;
-} 
+// Expose functions to be used in HTML
+window.openItemModal = openItemModal;
+window.openDeleteModal = openDeleteModal;
+window.initDashboard = initDashboard; 

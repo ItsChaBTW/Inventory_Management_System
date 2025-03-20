@@ -4,13 +4,6 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if user is already logged in, redirect to dashboard if so
-    const currentUser = getCurrentUser();
-    if (currentUser) {
-        window.location.href = 'dashboard.html';
-        return;
-    }
-
     // Get form element
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {

@@ -4,13 +4,6 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if user is already logged in, redirect to dashboard if so
-    const currentUser = getCurrentUser();
-    if (currentUser) {
-        window.location.href = 'dashboard.html';
-        return;
-    }
-
     // Get form element
     const signupForm = document.getElementById('signupForm');
     if (signupForm) {
@@ -118,13 +111,4 @@ function generateUserId() {
 function isValidEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
-}
-
-/**
- * Get the current user from local storage
- * @returns {Object|null} The current user object or null if not logged in
- */
-function getCurrentUser() {
-    const userJson = localStorage.getItem('currentUser');
-    return userJson ? JSON.parse(userJson) : null;
 } 
