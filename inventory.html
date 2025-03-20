@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Inventory Management System</title>
+    <title>Inventory - Inventory Management System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
@@ -52,12 +52,12 @@
             </a>
             
             <nav class="space-y-2">
-                <a href="#" class="flex items-center px-4 py-3 text-brand-blue bg-blue-50 rounded-lg">
-                    <i class="fas fa-chart-pie mr-3 text-brand-blue"></i>
+                <a href="dashboard.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-brand-blue rounded-lg transition">
+                    <i class="fas fa-chart-pie mr-3"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="inventory.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-brand-blue rounded-lg transition">
-                    <i class="fas fa-boxes mr-3"></i>
+                <a href="inventory.html" class="flex items-center px-4 py-3 text-brand-blue bg-blue-50 rounded-lg">
+                    <i class="fas fa-boxes mr-3 text-brand-blue"></i>
                     <span>Inventory</span>
                 </a>
                 <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-brand-blue rounded-lg transition">
@@ -70,13 +70,13 @@
                 </a>
             </nav>
         </div>
+        
         <div class="p-6 mt-auto border-t">
             <a href="index.html" class="flex items-center px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg transition">
                 <i class="fas fa-sign-out-alt mr-3"></i>
                 <span>Logout</span>
             </a>
         </div>
-        
     </div>
 
     <!-- Main Content -->
@@ -89,12 +89,12 @@
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                     <div class="ml-4 md:hidden">
-                        <span class="text-xl font-semibold text-brand-blue">Inventra</span>
+                        <span class="text-xl font-semibold text-brand-blue">InventoryPro</span>
                     </div>
                 </div>
                 
                 <div class="hidden md:flex">
-                    <h1 class="text-xl font-semibold text-gray-800">Dashboard</h1>
+                    <h1 class="text-xl font-semibold text-gray-800">Inventory Management</h1>
                 </div>
                 
                 <div class="flex items-center">
@@ -109,67 +109,58 @@
                                 <a href="update-profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                                     <i class="fas fa-user-edit mr-2"></i> Update Profile
                                 </a>
-                        
+                                
                             </div>
                         </div>
                     </div>
                 </div>
-                
-            
-                
+            </div>
         </header>
         
         <!-- Main Content Area -->
-        <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-gradient-to-r from-[#e4effa] to-[#dff7e6]">
-            <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div class="bg-white rounded-xl shadow p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-500">Total Items</p>
-                            <p class="text-3xl font-bold text-gray-800" id="totalItems">0</p>
-                        </div>
-                        <div class="h-12 w-12 rounded-full bg-brand-blue bg-opacity-10 flex items-center justify-center">
-                            <i class="fas fa-box text-brand-blue"></i>
-                        </div>
+        <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50">
+            <!-- Inventory Table Section -->
+            <div class="bg-white rounded-xl shadow overflow-hidden mb-6">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-xl font-bold text-gray-800">Inventory Items</h2>
+                        <button id="addItemBtn" class="bg-brand-blue hover:bg-brand-lightblue text-white py-2 px-4 rounded-lg transition flex items-center text-sm">
+                            <i class="fas fa-plus mr-2"></i> Add New Item
+                        </button>
                     </div>
                 </div>
                 
-                <div class="bg-white rounded-xl shadow p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-500">Total Value</p>
-                            <p class="text-3xl font-bold text-gray-800" id="totalValue">$0.00</p>
+                <div class="p-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 space-y-3 md:space-y-0">
+                        <div class="relative w-full md:w-auto">
+                            <input type="text" id="searchInventory" placeholder="Search items..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-brand-blue focus:border-brand-blue w-full md:w-64">
+                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <i class="fas fa-search"></i>
+                            </div>
                         </div>
-                        <div class="h-12 w-12 rounded-full bg-brand-green bg-opacity-10 flex items-center justify-center">
-                            <i class="fas fa-dollar-sign text-brand-green"></i>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-500">Low Stock Items</p>
-                            <p class="text-3xl font-bold text-gray-800" id="lowStockItems">0</p>
-                        </div>
-                        <div class="h-12 w-12 rounded-full bg-orange-500 bg-opacity-10 flex items-center justify-center">
-                            <i class="fas fa-exclamation-triangle text-orange-500"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Dashboard Sections -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                <!-- Low Stock Items Section -->
-                <div class="bg-white rounded-xl shadow overflow-hidden">
-                    <div class="p-6 border-b border-gray-200">
-                        <div class="flex justify-between items-center">
-                            <h2 class="text-xl font-bold text-gray-800">Low Stock Items</h2>
-                            <a href="inventory.html?filter=low-stock" class="text-brand-blue hover:text-brand-lightblue text-sm font-medium">
-                                View All <i class="fas fa-arrow-right ml-1"></i>
-                            </a>
+                        
+                        <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 w-full md:w-auto">
+                            <select id="categoryFilter" class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-blue focus:border-brand-blue text-sm w-full md:w-auto">
+                                <option value="">All Categories</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="food">Food</option>
+                                <option value="other">Other</option>
+                            </select>
+                            
+                            <select id="statusFilter" class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-blue focus:border-brand-blue text-sm w-full md:w-auto">
+                                <option value="">All Status</option>
+                                <option value="in-stock">In Stock</option>
+                                <option value="low-stock">Low Stock</option>
+                                <option value="out-of-stock">Out of Stock</option>
+                            </select>
+                            
+                            <select id="sortBy" class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-blue focus:border-brand-blue text-sm w-full md:w-auto">
+                                <option value="name">Sort by Name</option>
+                                <option value="category">Sort by Category</option>
+                                <option value="quantity">Sort by Quantity</option>
+                                <option value="price">Sort by Price</option>
+                            </select>
                         </div>
                     </div>
                     
@@ -182,165 +173,48 @@
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Category
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Description
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Quantity
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Unit Price
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Total Value
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Status
                                     </th>
-                                </tr>
-                            </thead>
-                            <tbody id="lowStockTable" class="bg-white divide-y divide-gray-200">
-                                <!-- Low stock items will be populated here -->
-                                <tr>
-                                    <td colspan="4" class="px-6 py-4 text-center text-gray-500">
-                                        No low stock items found.
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <!-- Recently Added Items Section -->
-                <div class="bg-white rounded-xl shadow overflow-hidden">
-                    <div class="p-6 border-b border-gray-200">
-                        <div class="flex justify-between items-center">
-                            <h2 class="text-xl font-bold text-gray-800">Recently Added</h2>
-                            <a href="inventory.html?sort=recent" class="text-brand-blue hover:text-brand-lightblue text-sm font-medium">
-                                View All <i class="fas fa-arrow-right ml-1"></i>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Item Name
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Category
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Value
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Date Added
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Actions
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody id="recentItemsTable" class="bg-white divide-y divide-gray-200">
-                                <!-- Recently added items will be populated here -->
-                                <tr>
-                                    <td colspan="4" class="px-6 py-4 text-center text-gray-500">
-                                        No recent items found.
-                                    </td>
-                                </tr>
+                            <tbody id="inventoryTableBody" class="bg-white divide-y divide-gray-200">
+                                <!-- Inventory items will be populated here by JavaScript -->
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
-            
-            <!-- Inventory Summary Section -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Inventory by Category -->
-                <div class="bg-white rounded-xl shadow overflow-hidden">
-                    <div class="p-6 border-b border-gray-200">
-                        <h2 class="text-xl font-bold text-gray-800">Inventory by Category</h2>
-                    </div>
                     
-                    <div class="p-6" id="categoryChartContainer">
-                        <div id="categoryChart" class="h-64 flex items-center justify-center">
-                            <div class="text-center">
-                                <div class="w-full flex space-x-4 justify-center">
-                                    <div class="text-center">
-                                        <div class="w-16 h-16 rounded-full bg-brand-blue mb-2 mx-auto"></div>
-                                        <div class="text-sm text-gray-500">Electronics</div>
-                                        <div id="electronics-count" class="font-bold">0</div>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="w-16 h-16 rounded-full bg-brand-teal mb-2 mx-auto"></div>
-                                        <div class="text-sm text-gray-500">Clothing</div>
-                                        <div id="clothing-count" class="font-bold">0</div>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="w-16 h-16 rounded-full bg-brand-green mb-2 mx-auto"></div>
-                                        <div class="text-sm text-gray-500">Food</div>
-                                        <div id="food-count" class="font-bold">0</div>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="w-16 h-16 rounded-full bg-gray-400 mb-2 mx-auto"></div>
-                                        <div class="text-sm text-gray-500">Other</div>
-                                        <div id="other-count" class="font-bold">0</div>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="flex justify-between items-center mt-6">
+                        <div class="text-sm text-gray-500">
+                            Showing <span id="itemCount">0</span> items
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Inventory Status Distribution -->
-                <div class="bg-white rounded-xl shadow overflow-hidden">
-                    <div class="p-6 border-b border-gray-200">
-                        <h2 class="text-xl font-bold text-gray-800">Inventory Status</h2>
-                    </div>
-                    
-                    <div class="p-6">
-                        <div class="h-64 flex items-center justify-center">
-                            <div class="w-full max-w-md">
-                                <div class="relative pt-1">
-                                    <div class="flex items-center justify-between mb-2">
-                                        <div>
-                                            <span class="inline-block w-3 h-3 rounded-full bg-green-500 mr-1"></span>
-                                            <span class="text-xs font-semibold text-gray-700">In Stock</span>
-                                        </div>
-                                        <div class="text-right">
-                                            <span id="in-stock-percent" class="text-xs font-semibold text-gray-700">0%</span>
-                                        </div>
-                                    </div>
-                                    <div class="w-full bg-gray-200 rounded-full h-2">
-                                        <div id="in-stock-bar" class="bg-green-500 h-2 rounded-full" style="width: 0%"></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="relative pt-4">
-                                    <div class="flex items-center justify-between mb-2">
-                                        <div>
-                                            <span class="inline-block w-3 h-3 rounded-full bg-yellow-500 mr-1"></span>
-                                            <span class="text-xs font-semibold text-gray-700">Low Stock</span>
-                                        </div>
-                                        <div class="text-right">
-                                            <span id="low-stock-percent" class="text-xs font-semibold text-gray-700">0%</span>
-                                        </div>
-                                    </div>
-                                    <div class="w-full bg-gray-200 rounded-full h-2">
-                                        <div id="low-stock-bar" class="bg-yellow-500 h-2 rounded-full" style="width: 0%"></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="relative pt-4">
-                                    <div class="flex items-center justify-between mb-2">
-                                        <div>
-                                            <span class="inline-block w-3 h-3 rounded-full bg-red-500 mr-1"></span>
-                                            <span class="text-xs font-semibold text-gray-700">Out of Stock</span>
-                                        </div>
-                                        <div class="text-right">
-                                            <span id="out-of-stock-percent" class="text-xs font-semibold text-gray-700">0%</span>
-                                        </div>
-                                    </div>
-                                    <div class="w-full bg-gray-200 rounded-full h-2">
-                                        <div id="out-of-stock-bar" class="bg-red-500 h-2 rounded-full" style="width: 0%"></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="mt-6 text-center text-sm text-gray-500">
-                                    <span id="total-summary">Total: 0 items</span>
-                                </div>
-                            </div>
+                        
+                        <div class="flex space-x-1">
+                            <button class="px-3 py-1 border border-gray-300 rounded text-gray-600 hover:bg-gray-50 disabled:opacity-50">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="px-3 py-1 bg-brand-blue text-white rounded hover:bg-brand-lightblue">1</button>
+                            <button class="px-3 py-1 border border-gray-300 rounded text-gray-600 hover:bg-gray-50">2</button>
+                            <button class="px-3 py-1 border border-gray-300 rounded text-gray-600 hover:bg-gray-50">3</button>
+                            <button class="px-3 py-1 border border-gray-300 rounded text-gray-600 hover:bg-gray-50">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
