@@ -1,5 +1,3 @@
-
-
 /* Auth system for user login and signup */
 document.addEventListener('DOMContentLoaded', function() {
     const protectedPages = ['dashboard.html'];

@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /**
  * Handle login form submission
- * @param {Event} event - The form submission event
+ * @param {Event} event     
  */
 function handleLogin(event) {
     event.preventDefault();
