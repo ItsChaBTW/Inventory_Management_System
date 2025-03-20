@@ -3,38 +3,7 @@
  * Core functionality for inventory management
  */
 
-// Sample default inventory data
-const defaultInventory = [
-    {
-        id: '1',
-        name: 'Laptop',
-        category: 'electronics',
-        description: 'High performance laptop with 16GB RAM',
-        quantity: 5,
-        price: 1200,
-        status: 'in-stock'
-    },
-    {
-        id: '2',
-        name: 'T-Shirt',
-        category: 'clothing',
-        description: 'Cotton t-shirt, available in multiple colors',
-        quantity: 50,
-        price: 25,
-        status: 'in-stock'
-    },
-    {
-        id: '3',
-        name: 'Coffee Beans',
-        category: 'food',
-        description: 'Premium coffee beans, 1kg package',
-        quantity: 2,
-        price: 15,
-        status: 'low-stock'
-    }
-];
-
-// Inventory data - will be loaded from localStorage or use defaults
+// Inventory data - will be loaded from localStorage
 let inventoryItems = [];
 
 // DOM elements
@@ -180,24 +149,36 @@ function initDashboard() {
     }
 }
 
-// Load inventory data from localStorage
-function loadInventoryData() {
-    const savedInventory = localStorage.getItem('inventoryItems');
-    
-    if (savedInventory) {
-        // Use saved inventory data if available
-        inventoryItems = JSON.parse(savedInventory);
-    } else {
-        // Use default data if no saved data exists
-        inventoryItems = [...defaultInventory];
-        // Save default data to localStorage
-        saveInventoryData();
-    }
+// Get current user ID
+function getCurrentUserId() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    return currentUser ? currentUser.id : null;
 }
 
-// Save inventory data to localStorage
+// Load inventory data from localStorage for current user
+function loadInventoryData() {
+    const userId = getCurrentUserId();
+    if (!userId) {
+        console.log("No user logged in, cannot load inventory");
+        inventoryItems = [];
+        return;
+    }
+    
+    const savedInventory = localStorage.getItem(`inventory_${userId}`);
+    inventoryItems = savedInventory ? JSON.parse(savedInventory) : [];
+    console.log(`Loaded ${inventoryItems.length} items for user ${userId}`);
+}
+
+// Save inventory data to localStorage for current user
 function saveInventoryData() {
-    localStorage.setItem('inventoryItems', JSON.stringify(inventoryItems));
+    const userId = getCurrentUserId();
+    if (!userId) {
+        console.log("No user logged in, cannot save inventory");
+        return;
+    }
+    
+    localStorage.setItem(`inventory_${userId}`, JSON.stringify(inventoryItems));
+    console.log(`Saved ${inventoryItems.length} items for user ${userId}`);
 }
 
 // Render the inventory table
@@ -370,10 +351,14 @@ function renderRecentItems() {
         return;
     }
     
-    // Sort items by creation date (assuming newest items have highest IDs)
-    // In a real application, you would sort by an actual date field
+    // Sort items by dateAdded property
     const recentItems = [...inventoryItems]
-        .sort((a, b) => parseInt(b.id) - parseInt(a.id))
+        .sort((a, b) => {
+            // Use dateAdded if available, otherwise fallback to id
+            const dateA = a.dateAdded ? new Date(a.dateAdded) : new Date(parseInt(a.id));
+            const dateB = b.dateAdded ? new Date(b.dateAdded) : new Date(parseInt(b.id));
+            return dateB - dateA;
+        })
         .slice(0, 5); // Show at most 5 items
     
     if (recentItems.length === 0) {
@@ -392,8 +377,8 @@ function renderRecentItems() {
     recentItems.forEach(item => {
         const totalValue = item.quantity * item.price;
         const formattedCategory = item.category.charAt(0).toUpperCase() + item.category.slice(1);
-        // Create a fake date - in a real application you would use a real date field
-        const itemDate = new Date(parseInt(item.id));
+        // Use dateAdded if available, otherwise use id to create date
+        const itemDate = item.dateAdded ? new Date(item.dateAdded) : new Date(parseInt(item.id));
         const formattedDate = itemDate.toLocaleDateString();
         
         const row = document.createElement('tr');
@@ -557,7 +542,10 @@ function filterInventoryItems() {
             case 'price':
                 return b.price - a.price;
             case 'recent':
-                return parseInt(b.id) - parseInt(a.id);
+                // Use dateAdded if available, otherwise fallback to id
+                const dateA = a.dateAdded ? new Date(a.dateAdded) : new Date(parseInt(a.id));
+                const dateB = b.dateAdded ? new Date(b.dateAdded) : new Date(parseInt(b.id));
+                return dateB - dateA;
             default:
                 return 0;
         }
@@ -736,7 +724,8 @@ function handleItemFormSubmit(event) {
             description,
             quantity,
             price,
-            status
+            status,
+            dateAdded: new Date().toISOString() // Add real date for sorting
         };
         
         inventoryItems.push(newItem);

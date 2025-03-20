@@ -1,107 +1,88 @@
 /**
- * Authentication module for Inventory Management System
- * Handles user registration, login, and session management
+ * Auth module for the Inventory System
+ * Handles users and login
  */
 
-// Check authentication state on page load
+// Auth system for user login and signup
 document.addEventListener('DOMContentLoaded', function() {
-    // Pages that require authentication
     const protectedPages = ['dashboard.html'];
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     
-    // Check if the current page is protected
     const isProtectedPage = protectedPages.some(page => currentPage.includes(page));
     const currentUser = getCurrentUser();
 
-    // For protected pages: redirect to login if not authenticated
+    // Redirect to login if not logged in
     if (isProtectedPage && !currentUser) {
         window.location.href = 'login.html';
         return;
     }
     
-    // For login/signup pages: redirect to dashboard if already authenticated
+    // Redirect logged in users from login/signup pages
     if ((currentPage.includes('login.html') || currentPage.includes('signup.html') || currentPage === 'index.html') && currentUser) {
-        // Do not automatically redirect from index page
         if (currentPage === 'index.html') {
-            // Just update UI, don't redirect
             const signInLink = document.querySelector('a[href="login.html"]');
             if (signInLink) {
                 signInLink.href = 'dashboard.html';
                 signInLink.textContent = 'Dashboard';
             }
         } else {
-            // Only redirect from login/signup pages
             window.location.href = 'dashboard.html';
             return;
         }
     }
     
-    // Set up logout functionality if button exists
+    // Setup logout button
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', logout);
     }
 
-    // Display user name if element exists
+    // Show user name
     const userNameElement = document.getElementById('userName');
     if (userNameElement && currentUser) {
         userNameElement.textContent = currentUser.firstName || 'User';
     }
 
-    // Check for user display area
     const userDisplay = document.getElementById('userDisplay');
     if (userDisplay && currentUser) {
         userDisplay.classList.remove('hidden');
     }
 });
 
-/**
- * Get the current user from local storage
- * @returns {Object|null} The current user object or null if not logged in
- */
+// Get user data from storage
 function getCurrentUser() {
     const userJson = localStorage.getItem('currentUser');
     return userJson ? JSON.parse(userJson) : null;
 }
 
-/**
- * Log the user out by removing their data from local storage
- */
+// Logout user
 function logout() {
     localStorage.removeItem('currentUser');
     window.location.href = 'login.html';
 }
 
-// Initialize the users array in local storage if it doesn't exist
+// Create users storage
 if (!localStorage.getItem('users')) {
     localStorage.setItem('users', JSON.stringify([]));
 }
 
-/**
- * Authentication functionality for Inventory Management System
- */
-
-// Check if the user is logged in
+// Check if user is logged in
 function isLoggedIn() {
     return localStorage.getItem('currentUser') !== null;
 }
 
-// Redirect to login if not authenticated
+// Protect pages that need login
 function requireAuth() {
-    // List of pages that require authentication
     const securePages = [
         'dashboard.html',
         'inventory.html',
         'update-profile.html'
     ];
     
-    // Get current page filename
     const currentPage = window.location.pathname.split('/').pop();
     
-    // Check if this is a secure page
     if (securePages.includes(currentPage) && !isLoggedIn()) {
         console.log('Unauthorized access attempt to', currentPage);
-        // Redirect to login page
         window.location.href = 'login.html';
         return false;
     }
@@ -109,7 +90,7 @@ function requireAuth() {
     return true;
 }
 
-// Handle login form submission
+// Handle login
 function handleLogin(event) {
     event.preventDefault();
     
@@ -117,14 +98,10 @@ function handleLogin(event) {
     const password = document.getElementById('password').value;
     const errorElement = document.getElementById('loginError');
     
-    // Get users from localStorage
     const users = JSON.parse(localStorage.getItem('users')) || [];
-    
-    // Find user with matching credentials
     const user = users.find(u => u.email === email && u.password === password);
     
     if (user) {
-        // Store current user in localStorage (in a real app, use secure tokens instead)
         localStorage.setItem('currentUser', JSON.stringify({
             firstName: user.firstName,
             lastName: user.lastName,
@@ -132,17 +109,15 @@ function handleLogin(event) {
             id: user.id
         }));
         
-        // Redirect to dashboard
         window.location.href = 'dashboard.html';
     } else {
-        // Show error message
         if (errorElement) {
             errorElement.classList.remove('hidden');
         }
     }
 }
 
-// Handle signup form submission
+// Handle signup
 function handleSignup(event) {
     event.preventDefault();
     
@@ -153,7 +128,6 @@ function handleSignup(event) {
     const confirmPassword = document.getElementById('confirmPassword').value;
     const errorElement = document.getElementById('signupError');
     
-    // Validate password match
     if (password !== confirmPassword) {
         if (errorElement) {
             errorElement.textContent = "Passwords don't match";
@@ -162,10 +136,8 @@ function handleSignup(event) {
         return;
     }
     
-    // Get existing users
     const users = JSON.parse(localStorage.getItem('users')) || [];
     
-    // Check if email already exists
     if (users.some(user => user.email === email)) {
         if (errorElement) {
             errorElement.textContent = "Email already in use";
@@ -174,22 +146,17 @@ function handleSignup(event) {
         return;
     }
     
-    // Create new user
     const newUser = {
         id: Date.now().toString(),
         firstName,
         lastName,
         email,
-        password // Note: In a real app, hash the password before storing
+        password
     };
     
-    // Add to users array
     users.push(newUser);
-    
-    // Save to localStorage
     localStorage.setItem('users', JSON.stringify(users));
     
-    // Set as current user
     localStorage.setItem('currentUser', JSON.stringify({
         firstName: newUser.firstName,
         lastName: newUser.lastName,
@@ -197,11 +164,10 @@ function handleSignup(event) {
         id: newUser.id
     }));
     
-    // Redirect to dashboard
     window.location.href = 'dashboard.html';
 }
 
-// Update UI with user info
+// Update user name display
 function updateUserInfo() {
     const userNameElements = document.querySelectorAll('#userName');
     
@@ -216,17 +182,14 @@ function updateUserInfo() {
     }
 }
 
-// Initialize auth on page load
+// Start auth system
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if user is authorized to access this page
     if (!requireAuth()) {
-        return; // Stop initialization if unauthorized
+        return;
     }
     
-    // Update UI with user info
     updateUserInfo();
     
-    // Add event listeners for login/signup forms
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', handleLogin);
@@ -237,14 +200,12 @@ document.addEventListener('DOMContentLoaded', function() {
         signupForm.addEventListener('submit', handleSignup);
     }
     
-    // Setup logout functionality
     const logoutLinks = document.querySelectorAll('a[href="index.html"]');
     logoutLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            // Only handle clicks on logout links (those inside the sidebar or dropdown)
             const isLogoutLink = 
-                link.closest('.border-t') !== null || // In sidebar
-                link.querySelector('.fa-sign-out-alt') !== null; // Has logout icon
+                link.closest('.border-t') !== null || 
+                link.querySelector('.fa-sign-out-alt') !== null;
             
             if (isLogoutLink) {
                 e.preventDefault();
