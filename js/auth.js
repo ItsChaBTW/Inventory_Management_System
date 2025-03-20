@@ -1,7 +1,4 @@
-/**
- * Auth module for the Inventory System
- * Handles users and login
- */
+
 
 /* Auth system for user login and signup */
 document.addEventListener('DOMContentLoaded', function() {

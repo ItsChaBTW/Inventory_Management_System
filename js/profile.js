@@ -1,8 +1,3 @@
-/**
- * Profile Management Module for Inventory Management System
- * Handles loading and updating user profile information
- */
-
 // Load user profile data
 function loadUserProfile() {
     // Get current user from localStorage

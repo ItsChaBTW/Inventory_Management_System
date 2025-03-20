@@ -83,7 +83,6 @@ function initDashboard() {
         
         // Render inventory table if we're on the inventory page
         if (inventoryTableBody) {
-            // Apply filters from URL parameters
             filterInventoryItems();
         }
         

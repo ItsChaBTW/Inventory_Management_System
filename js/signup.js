@@ -1,8 +1,3 @@
-/**
- * Signup module for Inventory Management System
- * Handles user registration
- */
-
 document.addEventListener('DOMContentLoaded', function() {
     const signupForm = document.getElementById('signupForm');
     if (signupForm) {
@@ -10,10 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-/**
- * Handle signup form submission
- * @param {Event} event     
- */
 function handleSignup(event) {
     event.preventDefault();
     
@@ -67,9 +58,8 @@ function handleSignup(event) {
 }
 
 /**
- * Display error message
- * @param {HTMLElement} element - The error element to display message in
- * @param {string} message - The error message to display
+ * @param {HTMLElement} element 
+ * @param {string} message 
  */
 function showError(element, message) {
     if (element) {

@@ -1,8 +1,3 @@
-/**
- * Login module for Inventory Management System
- * Handles user login functionality
- */
-
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
@@ -32,7 +27,7 @@ function handleLogin(event) {
     
     if (user && user.password === password) {
         const currentUser = { ...user };
-        delete currentUser.password; // Don't store password in session
+        delete currentUser.password; 
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         
         window.location.href = 'dashboard.html';

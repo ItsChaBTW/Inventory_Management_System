@@ -1,6 +1,3 @@
-/**
- * Animations for Inventory Management System
- */
 
 // Show loading animation on page load
 document.addEventListener('DOMContentLoaded', function() {
