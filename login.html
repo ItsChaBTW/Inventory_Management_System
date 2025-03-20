@@ -5,58 +5,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Inventory Management System</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
-    <div class="max-w-md w-full mx-4">
-        <div class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-blue-600">Inventory Management System</h1>
-            <p class="text-gray-600 mt-2">Sign in to your account</p>
-        </div>
-        
-        <div class="bg-white rounded-lg shadow-lg p-8">
-            <form id="loginForm" class="space-y-6">
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" id="email" name="email" required 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                </div>
-                
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <input type="password" id="password" name="password" required 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                </div>
-                
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <input id="remember-me" name="remember-me" type="checkbox" 
-                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                        <label for="remember-me" class="ml-2 block text-sm text-gray-700">Remember me</label>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <a href="index.html" class="flex items-center">
+                            <i class="fas fa-boxes text-primary-600 text-2xl mr-2"></i>
+                            <span class="font-bold text-xl text-gray-800">Inventory MS</span>
+                        </a>
                     </div>
                 </div>
-                
-                <div>
-                    <button type="submit" 
-                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Sign in
-                    </button>
+                <div class="flex items-center space-x-4">
+                    <a href="login.html" class="text-primary-600 font-medium">Login</a>
+                    <a href="signup.html" class="text-gray-700 hover:text-primary-600">Sign Up</a>
                 </div>
-                
-                <div id="loginError" class="text-red-600 text-center hidden">
-                    Invalid email or password
-                </div>
-            </form>
-            
-            <div class="mt-6 text-center">
-                <p class="text-sm text-gray-600">
-                    Don't have an account? 
-                    <a href="signup.html" class="font-medium text-blue-600 hover:text-blue-500">Sign up</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
+        <div class="max-w-md w-full space-y-8">
+            <div>
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+                <p class="mt-2 text-center text-sm text-gray-600">
+                    Or
+                    <a href="signup.html" class="font-medium text-primary-600 hover:text-primary-500">
+                        create a new account
+                    </a>
                 </p>
-                <a href="index.html" class="block mt-2 text-sm text-blue-600 hover:text-blue-500">Back to Home</a>
+            </div>
+            
+            <div class="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+                <form id="loginForm" class="space-y-6">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">
+                            Email address
+                        </label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-gray-400"></i>
+                            </div>
+                            <input type="email" id="email" name="email" required
+                                class="pl-10 block w-full border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 py-3 px-4"
+                                placeholder="you@example.com">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">
+                            Password
+                        </label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-gray-400"></i>
+                            </div>
+                            <input type="password" id="password" name="password" required
+                                class="pl-10 block w-full border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 py-3 px-4"
+                                placeholder="••••••••">
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input id="remember-me" name="remember-me" type="checkbox" 
+                                class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                            <label for="remember-me" class="ml-2 block text-sm text-gray-700">
+                                Remember me
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <button type="submit" 
+                            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                                <i class="fas fa-sign-in-alt text-primary-300 group-hover:text-primary-200"></i>
+                            </span>
+                            Sign in
+                        </button>
+                    </div>
+                    
+                    <div id="loginError" class="text-red-600 text-center hidden">
+                        Invalid email or password
+                    </div>
+                </form>
+                
+                <div class="mt-6">
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-white text-gray-500">
+                                Or continue with
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 grid grid-cols-3 gap-3">
+                        <div>
+                            <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <i class="fab fa-google"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <i class="fab fa-apple"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="index.html" class="text-sm font-medium text-primary-600 hover:text-primary-500">
+                    <i class="fas fa-arrow-left mr-1"></i> Back to Home
+                </a>
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-white">
+        <div class="max-w-7xl mx-auto py-8 px-4 overflow-hidden sm:px-6 lg:px-8">
+            <p class="text-center text-base text-gray-400">
+                &copy; 2023 Inventory Management System. All rights reserved.
+            </p>
+        </div>
+    </footer>
     
     <script src="js/login.js"></script>
 </body>
