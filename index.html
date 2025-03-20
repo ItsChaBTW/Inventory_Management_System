@@ -12,192 +12,285 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: {
-                            50: '#eef2ff',
-                            100: '#e0e7ff',
-                            200: '#c7d2fe',
-                            300: '#a5b4fc',
-                            400: '#818cf8',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            800: '#3730a3',
-                            900: '#312e81',
+                        brand: {
+                            blue: '#3b4cb8',
+                            lightblue: '#6070db',
+                            purple: '#5e35b1',
+                            teal: '#00bcd4',
+                            green: '#4caf50',
+                            lightgreen: '#8bc34a',
                         }
                     }
                 }
             }
         }
     </script>
+    <style>
+        .bg-gradient-custom {
+            background: linear-gradient(135deg, #e8eafd 0%, #a4ffc8 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        .illustration-container {
+            position: relative;
+            height: 450px;
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex">
-                    <div class="flex-shrink-0 flex items-center">
-                        <i class="fas fa-boxes text-primary-600 text-2xl mr-2"></i>
-                        <span class="font-bold text-xl text-gray-800">Inventory MS</span>
-                    </div>
+<body class="bg-gradient-custom min-h-screen py-8 px-4 flex items-center justify-center">
+    <div class="max-w-6xl w-full bg-white rounded-3xl card-shadow overflow-hidden">
+        <!-- Navigation -->
+        <nav class="px-8 py-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <a href="#" class="flex items-center">
+                        <svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-2">
+                            <rect width="50" height="50" rx="10" fill="#3b4cb8"/>
+                            <rect x="10" y="18" width="30" height="4" rx="2" fill="white"/>
+                            <rect x="10" y="26" width="30" height="4" rx="2" fill="white"/>
+                            <rect x="10" y="34" width="30" height="4" rx="2" fill="white"/>
+                            <circle cx="15" cy="12" r="3" fill="#00bcd4"/>
+                            <circle cx="25" cy="12" r="3" fill="#4caf50"/>
+                            <circle cx="35" cy="12" r="3" fill="#ff9800"/>
+                        </svg>
+                        <span class="text-xl font-bold text-brand-blue">InventoryPro</span>
+                    </a>
                 </div>
-                <div class="flex items-center">
-                    <a href="login.html" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium">Login</a>
-                    <a href="signup.html" class="ml-4 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium">Sign Up</a>
+                
+                <div>
+                    <a href="login.html" class="bg-gray-100 text-gray-600 py-2 px-5 rounded-full text-sm font-medium hover:bg-gray-200 transition">Sign In</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="px-8 py-8 flex flex-col md:flex-row">
+            <!-- Left Column - Text Content -->
+            <div class="w-full md:w-2/5 pr-8 pt-12">
+                <h1 class="text-5xl font-bold text-brand-blue leading-tight mb-4">Product Inventory</h1>
+                <p class="text-gray-500 mb-8">
+                    Streamline your inventory management with our powerful system. Track products, monitor stock levels, and optimize your business operations with ease.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="signup.html" class="bg-brand-lightblue hover:bg-brand-blue text-white py-3 px-6 rounded-full text-sm font-medium transition">
+                        Get Started
+                    </a>
+                    <a href="login.html" class="border border-brand-lightblue text-brand-lightblue hover:bg-gray-50 py-3 px-6 rounded-full text-sm font-medium transition">
+                        Be a part of us
+                    </a>
+                </div>
+                <div class="mt-24 text-xs text-gray-400">
+                    &copy; 2023 InventoryPro. All rights reserved.
+                </div>
+            </div>
+
+            <!-- Right Column - Illustrations -->
+            <div class="w-full md:w-3/5 illustration-container">
+                <!-- SVG Illustrations -->
+                <div class="relative w-full h-full">
+                    <!-- Inventory Dashboard UI -->
+                    <svg class="absolute right-0 top-0 h-80 w-auto" viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Dashboard Frame -->
+                        <rect x="10" y="10" width="280" height="380" rx="20" fill="#5e35b1" />
+                        <rect x="20" y="20" width="260" height="360" rx="15" fill="#4527a0" />
+                        <rect x="30" y="40" width="240" height="330" rx="10" fill="#673ab7" />
+                        
+                        <!-- Dashboard Header -->
+                        <rect x="45" y="60" width="210" height="30" rx="5" fill="#9575cd" />
+                        <circle cx="60" cy="75" r="8" fill="#00bcd4" />
+                        <rect x="75" y="70" width="80" height="10" rx="3" fill="white" opacity="0.9" />
+                        <rect x="200" y="70" width="40" height="10" rx="3" fill="white" opacity="0.6" />
+                        
+                        <!-- Dashboard Metrics -->
+                        <rect x="45" y="100" width="65" height="65" rx="5" fill="#3949ab" />
+                        <rect x="48" y="130" width="59" height="8" rx="2" fill="white" opacity="0.6" />
+                        <rect x="48" y="143" width="40" height="6" rx="2" fill="white" opacity="0.4" />
+                        <text x="75" y="125" font-size="22" fill="white" text-anchor="middle">86</text>
+                        
+                        <rect x="120" y="100" width="65" height="65" rx="5" fill="#00bcd4" />
+                        <rect x="123" y="130" width="59" height="8" rx="2" fill="white" opacity="0.6" />
+                        <rect x="123" y="143" width="40" height="6" rx="2" fill="white" opacity="0.4" />
+                        <text x="150" y="125" font-size="22" fill="white" text-anchor="middle">42</text>
+                        
+                        <rect x="195" y="100" width="65" height="65" rx="5" fill="#4caf50" />
+                        <rect x="198" y="130" width="59" height="8" rx="2" fill="white" opacity="0.6" />
+                        <rect x="198" y="143" width="40" height="6" rx="2" fill="white" opacity="0.4" />
+                        <text x="225" y="125" font-size="22" fill="white" text-anchor="middle">93%</text>
+                        
+                        <!-- Inventory Table -->
+                        <rect x="45" y="180" width="215" height="170" rx="5" fill="#7986cb" opacity="0.8" />
+                        <rect x="50" y="185" width="205" height="30" rx="3" fill="#3f51b5" />
+                        
+                        <!-- Table Headers -->
+                        <rect x="55" y="195" width="40" height="10" rx="2" fill="white" opacity="0.9" />
+                        <rect x="105" y="195" width="40" height="10" rx="2" fill="white" opacity="0.9" />
+                        <rect x="155" y="195" width="40" height="10" rx="2" fill="white" opacity="0.9" />
+                        <rect x="205" y="195" width="40" height="10" rx="2" fill="white" opacity="0.9" />
+                        
+                        <!-- Table Rows -->
+                        <rect x="50" y="220" width="205" height="25" rx="2" fill="white" opacity="0.1" />
+                        <rect x="55" y="227" width="30" height="10" rx="2" fill="white" opacity="0.8" />
+                        <rect x="105" y="227" width="40" height="10" rx="2" fill="white" opacity="0.6" />
+                        <rect x="155" y="227" width="20" height="10" rx="2" fill="white" opacity="0.6" />
+                        <rect x="205" y="227" width="30" height="10" rx="2" fill="#4caf50" opacity="0.8" />
+                        
+                        <rect x="50" y="250" width="205" height="25" rx="2" fill="white" opacity="0.1" />
+                        <rect x="55" y="257" width="30" height="10" rx="2" fill="white" opacity="0.8" />
+                        <rect x="105" y="257" width="40" height="10" rx="2" fill="white" opacity="0.6" />
+                        <rect x="155" y="257" width="20" height="10" rx="2" fill="white" opacity="0.6" />
+                        <rect x="205" y="257" width="30" height="10" rx="2" fill="#ff9800" opacity="0.8" />
+                        
+                        <rect x="50" y="280" width="205" height="25" rx="2" fill="white" opacity="0.1" />
+                        <rect x="55" y="287" width="30" height="10" rx="2" fill="white" opacity="0.8" />
+                        <rect x="105" y="287" width="40" height="10" rx="2" fill="white" opacity="0.6" />
+                        <rect x="155" y="287" width="20" height="10" rx="2" fill="white" opacity="0.6" />
+                        <rect x="205" y="287" width="30" height="10" rx="2" fill="#f44336" opacity="0.8" />
+                        
+                        <rect x="50" y="310" width="205" height="25" rx="2" fill="white" opacity="0.1" />
+                        <rect x="55" y="317" width="30" height="10" rx="2" fill="white" opacity="0.8" />
+                        <rect x="105" y="317" width="40" height="10" rx="2" fill="white" opacity="0.6" />
+                        <rect x="155" y="317" width="20" height="10" rx="2" fill="white" opacity="0.6" />
+                        <rect x="205" y="317" width="30" height="10" rx="2" fill="#4caf50" opacity="0.8" />
+                    </svg>
+                    
+                    <!-- Warehouse/Shelves with Products -->
+                    <svg class="absolute left-0 top-20 h-52 w-auto" viewBox="0 0 250 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Warehouse Background -->
+                        <rect x="10" y="20" width="230" height="170" rx="5" fill="#eceff1" />
+                        
+                        <!-- Shelving Units -->
+                        <rect x="20" y="30" width="210" height="10" rx="2" fill="#90a4ae" />
+                        <rect x="25" y="40" width="5" height="140" rx="1" fill="#78909c" />
+                        <rect x="220" y="40" width="5" height="140" rx="1" fill="#78909c" />
+                        
+                        <!-- Shelf Dividers -->
+                        <rect x="20" y="70" width="210" height="5" rx="1" fill="#90a4ae" />
+                        <rect x="20" y="110" width="210" height="5" rx="1" fill="#90a4ae" />
+                        <rect x="20" y="150" width="210" height="5" rx="1" fill="#90a4ae" />
+                        <rect x="20" y="180" width="210" height="10" rx="2" fill="#90a4ae" />
+                        
+                        <!-- Top Shelf Products -->
+                        <rect x="40" y="40" width="30" height="25" rx="2" fill="#ff9800" />
+                        <rect x="45" y="45" width="20" height="15" rx="1" fill="#f57c00" />
+                        
+                        <rect x="80" y="40" width="25" height="25" rx="2" fill="#f44336" />
+                        <rect x="85" y="45" width="15" height="15" rx="1" fill="#d32f2f" />
+                        
+                        <rect x="115" y="40" width="35" height="25" rx="2" fill="#2196f3" />
+                        <rect x="120" y="45" width="25" height="15" rx="1" fill="#1976d2" />
+                        
+                        <rect x="160" y="40" width="20" height="25" rx="2" fill="#4caf50" />
+                        <rect x="165" y="45" width="10" height="15" rx="1" fill="#388e3c" />
+                        
+                        <rect x="190" y="40" width="20" height="25" rx="2" fill="#9c27b0" />
+                        <rect x="195" y="45" width="10" height="15" rx="1" fill="#7b1fa2" />
+                        
+                        <!-- Middle Shelf Products -->
+                        <rect x="30" y="80" width="30" height="25" rx="2" fill="#673ab7" />
+                        <rect x="35" y="85" width="20" height="15" rx="1" fill="#512da8" />
+                        
+                        <rect x="70" y="80" width="40" height="25" rx="2" fill="#00bcd4" />
+                        <rect x="75" y="85" width="30" height="15" rx="1" fill="#0097a7" />
+                        
+                        <rect x="120" y="80" width="25" height="25" rx="2" fill="#ffc107" />
+                        <rect x="125" y="85" width="15" height="15" rx="1" fill="#ffa000" />
+                        
+                        <rect x="155" y="80" width="35" height="25" rx="2" fill="#8bc34a" />
+                        <rect x="160" y="85" width="25" height="15" rx="1" fill="#689f38" />
+                        
+                        <rect x="200" y="80" width="20" height="25" rx="2" fill="#3f51b5" />
+                        <rect x="205" y="85" width="10" height="15" rx="1" fill="#303f9f" />
+                        
+                        <!-- Bottom Shelf Products -->
+                        <rect x="40" y="120" width="35" height="25" rx="2" fill="#e91e63" />
+                        <rect x="45" y="125" width="25" height="15" rx="1" fill="#c2185b" />
+                        
+                        <rect x="85" y="120" width="20" height="25" rx="2" fill="#009688" />
+                        <rect x="90" y="125" width="10" height="15" rx="1" fill="#00796b" />
+                        
+                        <rect x="115" y="120" width="30" height="25" rx="2" fill="#ff5722" />
+                        <rect x="120" y="125" width="20" height="15" rx="1" fill="#e64a19" />
+                        
+                        <rect x="155" y="120" width="25" height="25" rx="2" fill="#795548" />
+                        <rect x="160" y="125" width="15" height="15" rx="1" fill="#5d4037" />
+                        
+                        <rect x="190" y="120" width="30" height="25" rx="2" fill="#607d8b" />
+                        <rect x="195" y="125" width="20" height="15" rx="1" fill="#455a64" />
+                    </svg>
+                    
+                    <!-- Barcode Scanner/Inventory Tracking -->
+                    <svg class="absolute bottom-32 left-32 h-32 w-auto" viewBox="0 0 140 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Scanner Housing -->
+                        <path d="M20,40 L120,30 L120,100 L20,110 Z" fill="#455a64" />
+                        <path d="M20,40 L120,30 L120,40 L20,50 Z" fill="#263238" />
+                        <path d="M30,45 L110,36 L110,95 L30,104 Z" fill="#37474f" />
+                        
+                        <!-- Scanner Screen -->
+                        <path d="M40,50 L100,42.5 L100,75 L40,82.5 Z" fill="#cfd8dc" />
+                        
+                        <!-- Barcode on Screen -->
+                        <rect x="45" y="48" width="2" height="30" fill="black" />
+                        <rect x="49" y="48" width="1" height="30" fill="black" />
+                        <rect x="52" y="48" width="3" height="30" fill="black" />
+                        <rect x="57" y="48" width="2" height="30" fill="black" />
+                        <rect x="61" y="48" width="1" height="30" fill="black" />
+                        <rect x="64" y="48" width="3" height="30" fill="black" />
+                        <rect x="70" y="48" width="1" height="30" fill="black" />
+                        <rect x="73" y="48" width="2" height="30" fill="black" />
+                        <rect x="77" y="48" width="3" height="30" fill="black" />
+                        <rect x="82" y="48" width="1" height="30" fill="black" />
+                        <rect x="85" y="48" width="2" height="30" fill="black" />
+                        <rect x="89" y="48" width="3" height="30" fill="black" />
+                        <rect x="94" y="48" width="1" height="30" fill="black" />
+                        
+                        <!-- Scanner Buttons -->
+                        <rect x="45" y="88" width="10" height="6" rx="1" fill="#f44336" />
+                        <rect x="60" y="87" width="10" height="6" rx="1" fill="#4caf50" />
+                        <rect x="75" y="86" width="20" height="6" rx="1" fill="#2196f3" />
+                        
+                        <!-- Scanner Laser -->
+                        <path d="M30,65 L40,63.5 L40,64.5 L30,66 Z" fill="#f44336" />
+                        <path d="M20,66 L40,63.5" stroke="#f44336" stroke-width="1" stroke-dasharray="2,1" />
+                    </svg>
+                    
+                    <!-- Inventory Tracking Interface with Checkmarks -->
+                    <svg class="absolute bottom-0 right-0 h-48 w-auto" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Clipboard Background -->
+                        <rect x="20" y="10" width="160" height="130" rx="5" fill="#e0e0e0" />
+                        <rect x="30" y="20" width="140" height="110" rx="3" fill="#ffffff" />
+                        
+                        <!-- Clipboard Clip -->
+                        <rect x="85" y="5" width="30" height="15" rx="3" fill="#90a4ae" />
+                        <rect x="95" y="0" width="10" height="20" rx="2" fill="#78909c" />
+                        
+                        <!-- Inventory List Items -->
+                        <rect x="40" y="30" width="20" height="20" rx="2" fill="#f5f5f5" stroke="#3b4cb8" />
+                        <path d="M45,40 L50,45 L55,35" stroke="#4caf50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <rect x="70" y="33" width="90" height="5" rx="1" fill="#9e9e9e" />
+                        <rect x="70" y="42" width="60" height="3" rx="1" fill="#bdbdbd" />
+                        
+                        <rect x="40" y="60" width="20" height="20" rx="2" fill="#f5f5f5" stroke="#3b4cb8" />
+                        <path d="M45,70 L50,75 L55,65" stroke="#4caf50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <rect x="70" y="63" width="90" height="5" rx="1" fill="#9e9e9e" />
+                        <rect x="70" y="72" width="60" height="3" rx="1" fill="#bdbdbd" />
+                        
+                        <rect x="40" y="90" width="20" height="20" rx="2" fill="#f5f5f5" stroke="#3b4cb8" />
+                        <rect x="70" y="93" width="90" height="5" rx="1" fill="#9e9e9e" />
+                        <rect x="70" y="102" width="60" height="3" rx="1" fill="#bdbdbd" />
+                    </svg>
                 </div>
             </div>
         </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <div class="relative bg-white overflow-hidden">
-        <div class="max-w-7xl mx-auto">
-            <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
-                <svg class="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2" fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                    <polygon points="50,0 100,0 50,100 0,100" />
+        <!-- Footer with search icon -->
+        <div class="px-8 py-4 flex justify-end">
+            <div class="rounded-full bg-white p-2 shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-
-                <main class="pt-10 mx-auto max-w-7xl px-4 sm:pt-12 sm:px-6 md:pt-16 lg:pt-20 lg:px-8 xl:pt-28">
-                    <div class="sm:text-center lg:text-left">
-                        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                            <span class="block">Streamline Your</span>
-                            <span class="block text-primary-600">Inventory Management</span>
-                        </h1>
-                        <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                            Keep track of your inventory with ease. Our simple yet powerful solution helps you manage items, monitor stock levels, and optimize your business operations.
-                        </p>
-                        <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                            <div class="rounded-md shadow">
-                                <a href="signup.html" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 md:py-4 md:text-lg md:px-10">
-                                    Get Started
-                                </a>
-                            </div>
-                            <div class="mt-3 sm:mt-0 sm:ml-3">
-                                <a href="login.html" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-primary-700 bg-primary-100 hover:bg-primary-200 md:py-4 md:text-lg md:px-10">
-                                    Sign In
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </main>
-            </div>
-        </div>
-        <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-            <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://images.unsplash.com/photo-1553413077-190dd305871c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Inventory warehouse">
-        </div>
-    </div>
-
-    <!-- Features Section -->
-    <div class="py-12 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="lg:text-center">
-                <h2 class="text-base text-primary-600 font-semibold tracking-wide uppercase">Features</h2>
-                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                    Everything You Need to Manage Your Inventory
-                </p>
-                <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-                    Our system provides a comprehensive set of tools to help you keep track of your inventory with ease.
-                </p>
-            </div>
-
-            <div class="mt-10">
-                <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
-                    <div class="relative">
-                        <dt>
-                            <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
-                                <i class="fas fa-plus"></i>
-                            </div>
-                            <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Add and Track Items</p>
-                        </dt>
-                        <dd class="mt-2 ml-16 text-base text-gray-500">
-                            Easily add new items to your inventory with detailed information including name, description, quantity, and price.
-                        </dd>
-                    </div>
-
-                    <div class="relative">
-                        <dt>
-                            <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
-                                <i class="fas fa-edit"></i>
-                            </div>
-                            <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Update Records</p>
-                        </dt>
-                        <dd class="mt-2 ml-16 text-base text-gray-500">
-                            Update quantities, prices, and descriptions as your inventory changes to maintain accurate records.
-                        </dd>
-                    </div>
-
-                    <div class="relative">
-                        <dt>
-                            <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
-                                <i class="fas fa-table"></i>
-                            </div>
-                            <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Organized Display</p>
-                        </dt>
-                        <dd class="mt-2 ml-16 text-base text-gray-500">
-                            View all your inventory items in a clean, organized table format with sorting and filtering options.
-                        </dd>
-                    </div>
-
-                    <div class="relative">
-                        <dt>
-                            <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
-                                <i class="fas fa-calculator"></i>
-                            </div>
-                            <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Automatic Calculations</p>
-                        </dt>
-                        <dd class="mt-2 ml-16 text-base text-gray-500">
-                            Automatically calculate total values and other metrics to help you make informed business decisions.
-                        </dd>
-                    </div>
-                </dl>
             </div>
         </div>
     </div>
-
-    <!-- CTA Section -->
-    <div class="bg-primary-700">
-        <div class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
-                <span class="block">Ready to get started?</span>
-                <span class="block">Create your account today.</span>
-            </h2>
-            <p class="mt-4 text-lg leading-6 text-primary-200">
-                Join thousands of businesses that use our inventory management system to streamline their operations.
-            </p>
-            <a href="signup.html" class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-primary-50 sm:w-auto">
-                Sign up for free
-            </a>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-white">
-        <div class="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
-            <div class="mt-8 flex justify-center space-x-6">
-                <a href="#" class="text-gray-400 hover:text-gray-500">
-                    <span class="sr-only">Facebook</span>
-                    <i class="fab fa-facebook text-xl"></i>
-                </a>
-
-                <a href="#" class="text-gray-400 hover:text-gray-500">
-                    <span class="sr-only">Instagram</span>
-                    <i class="fab fa-instagram text-xl"></i>
-                </a>
-
-                <a href="#" class="text-gray-400 hover:text-gray-500">
-                    <span class="sr-only">Twitter</span>
-                    <i class="fab fa-twitter text-xl"></i>
-                </a>
-
-                <a href="#" class="text-gray-400 hover:text-gray-500">
-                    <span class="sr-only">GitHub</span>
-                    <i class="fab fa-github text-xl"></i>
-                </a>
-            </div>
-            <p class="mt-8 text-center text-base text-gray-400">
-                &copy; 2023 Inventory Management System. All rights reserved.
-            </p>
-        </div>
-    </footer>
 </body>
 </html> 
