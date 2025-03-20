@@ -3,7 +3,9 @@
  * Core functionality for inventory management
  */
 
-// Inventory data - will be loaded from localStorage
+
+
+// Inventory data - will be loaded from localStorage or use defaults
 let inventoryItems = [];
 
 // DOM elements
